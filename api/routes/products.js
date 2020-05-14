@@ -70,8 +70,23 @@ router.get("/:id", (req, res, next) => {
 })
 
 
-router.put('/:id', (req, res, next) => {
-  res.status(200).send("products update")
+router.patch('/:id', (req, res, next) => {
+  const id = req.params.id;
+  const updateOp = {}
+  for(const op of req.body){
+    updateOp[op.propName] = op.value 
+  }
+  Product.update({_id:id},{$set:updateOp})
+  .exec()
+  .then(doc=>{
+    res.status(200).json(doc)
+    console.log("Updated..");
+  })
+  .catch(err=>{
+    res.status(500).json({
+      msg:err
+    })
+  })
 })
 
 router.delete('/:id', (req, res, next) => {
