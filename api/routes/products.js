@@ -18,7 +18,8 @@ router.get("/",(req,res,next)=>{
     }
   })
   .catch(err=>{
-    console.log(err)
+    console.log("Get an error..")
+    res.status(500).json(err)
   })
 })
 
@@ -39,15 +40,10 @@ router.post('/', (req, res, next) => {
       res.status(200).json(doc)
     })
     .catch(err => {
-      // console.log(err)
-      // res.status(500).json({
-      //   message:err
-      // })
-    })
-    console.log(product)
-    res.status(201).json({
-      message:"insert new doc",
-      data:product
+      console.log("Get an error on posting..")
+      res.status(500).json({
+        message:err
+      })
     })
 })
 
@@ -61,12 +57,12 @@ router.get("/:id", (req, res, next) => {
         res.status(200).json(doc)
       }else{
         res.status(404).json({
-          message: "No valid entry by id"
+          message: "No valid doc by this id"
         })
       }
     })
     .catch(err => {
-      console.log(err)
+      console.log("Get an error..")
       res.status(500).json({
         err: err
       })
@@ -79,7 +75,17 @@ router.put('/:id', (req, res, next) => {
 })
 
 router.delete('/:id', (req, res, next) => {
-  res.status(200).send("products delete")
+  const id = req.params.id;
+  Product.remove({_id:id})
+  .exec()
+  .then(msg=>{
+    console.log("doc deleted..")
+    res.status(200).json(msg)
+  })
+  .catch(err=>{
+    console.log("Get an error..")
+    res.status(500).json(err)
+  })
 })
 
 module.exports = router;

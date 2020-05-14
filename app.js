@@ -8,7 +8,7 @@ const products = require('./api/routes/products');
 
 mongoose
   .connect(
-    "mongodb+srv://cluster0-nw34s.mongodb.net/test?retryWrites=true&w=majority/Restapi",
+    "mongodb+srv://cluster0-nw34s.mongodb.net/test?retryWrites=true&w=majority",
     {
       dbName: "Restapi",
       user: "sayan",
@@ -18,7 +18,7 @@ mongoose
     }
   )
   .then(()=>{
-    console.log(`mongo connected !!`)
+    console.log(`mongo connected..`)
   }
   );
 
@@ -46,5 +46,5 @@ app.use((error,req,res,next)=>{
 })
 
 app.listen(PORT,_=>{
-  console.log(`server is running at ${PORT}`)
+  console.log(`local server is running at ${PORT}`)
 })
