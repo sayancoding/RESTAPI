@@ -6,11 +6,28 @@ const Product = require('../models/product.model')
 
 router.get("/",(req,res,next)=>{
   Product.find()
+  .select('name price category quantity _id')
   .exec()
   .then(doc=>{
     if (doc) {
+      const response = {
+        count: doc.length,
+        products:doc.map(el=>{
+          return{
+            _id:el.id,
+            name:el.name,
+            price:el.price,
+            quantity:el.quantity,
+            category:el.category,
+            request:{
+              type:'GET',
+              url:`http://localhost:4000/products/${el._id}`
+            }
+          }
+        })
+      }
       console.log(doc)
-      res.status(200).json(doc)
+      res.status(200).json(response)
     } else {
       res.status(404).json({
         message: "No valid entry by id"
@@ -36,8 +53,19 @@ router.post('/', (req, res, next) => {
   product
     .save()
     .then(doc => {
-      console.log(doc)
-      res.status(200).json(doc)
+      const createdData = {
+        _id:doc._id,
+        name:doc.name,
+        price:doc.price,
+        category:doc.category,
+        quantity:doc.quantity,
+        request:{
+          type:'GET',
+          url: `http://localhost:4000/products/${doc._id}`
+        }
+      }
+      console.log(createdData)
+      res.status(200).json(createdData)
     })
     .catch(err => {
       console.log("Get an error on posting..")
@@ -53,8 +81,19 @@ router.get("/:id", (req, res, next) => {
     .exec()
     .then(doc => {
       if(doc){
+        const response = {
+              _id: doc.id,
+              name: doc.name,
+              price: doc.price,
+              quantity: doc.quantity,
+              category: doc.category,
+              request: {
+                type: 'GET',
+                url: `http://localhost:4000/products/${doc._id}`
+              }
+        }
         console.log(doc)
-        res.status(200).json(doc)
+        res.status(200).json(response)
       }else{
         res.status(404).json({
           message: "No valid doc by this id"
