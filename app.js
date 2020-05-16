@@ -25,7 +25,7 @@ mongoose
 
   mongoose.Promise = global.Promise;
 
-
+app.use('/upload/',express.static('upload'))
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
