@@ -5,6 +5,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const products = require('./api/routes/products');
+const orders = require('./api/routes/orders');
 
 mongoose
   .connect(
@@ -22,6 +23,8 @@ mongoose
   }
   );
 
+  mongoose.Promise = global.Promise;
+
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -29,6 +32,7 @@ app.use(bodyParser.json());
 //router are here..
 // app.use(products)
 app.use('/products',products);
+app.use('/orders',orders);
 
 //error handel
 app.use((req,res,next)=>{

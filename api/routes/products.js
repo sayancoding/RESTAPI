@@ -17,7 +17,6 @@ router.get("/",(req,res,next)=>{
             _id:el.id,
             name:el.name,
             price:el.price,
-            quantity:el.quantity,
             category:el.category,
             request:{
               type:'GET',
@@ -46,8 +45,7 @@ router.post('/', (req, res, next) => {
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
     price: req.body.price,
-    category: req.body.category,
-    quantity: req.body.quantity
+    category: req.body.category
   });
 
   product
@@ -58,7 +56,6 @@ router.post('/', (req, res, next) => {
         name:doc.name,
         price:doc.price,
         category:doc.category,
-        quantity:doc.quantity,
         request:{
           type:'GET',
           url: `http://localhost:4000/products/${doc._id}`
@@ -85,7 +82,6 @@ router.get("/:id", (req, res, next) => {
               _id: doc.id,
               name: doc.name,
               price: doc.price,
-              quantity: doc.quantity,
               category: doc.category,
               request: {
                 type: 'GET',
