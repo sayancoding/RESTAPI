@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router();
 const mongoose = require('mongoose')
 const multer = require('multer')
+const token = require('../auth-token')
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -31,7 +32,7 @@ const upload = multer({
 
 const Product = require('../models/product.model')
 
-router.get("/",(req,res,next)=>{
+router.get("/", (req,res,next)=>{
   Product.find()
   .select('name price category quantity _id')
   .exec()
