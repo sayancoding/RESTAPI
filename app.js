@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3000;
 
 const products = require('./api/routes/products');
 const orders = require('./api/routes/orders');
+const users = require('./api/routes/users')
 
 mongoose
   .connect(
@@ -33,6 +34,7 @@ app.use(bodyParser.json());
 // app.use(products)
 app.use('/products',products);
 app.use('/orders',orders);
+app.use('/user',users);
 
 //error handel
 app.use((req,res,next)=>{
